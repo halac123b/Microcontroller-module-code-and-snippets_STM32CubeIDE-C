@@ -56,6 +56,7 @@ static void MX_USART2_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+uint8_t data[] = "Hello world\n";
 
 /* USER CODE END 0 */
 
@@ -87,6 +88,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  // UART is generated auto by IDE
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
@@ -97,7 +99,13 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  // Hàm gửi data thông qua UART, input:
+	  //// huart2: pointer đến biến define UART đc generate sẵn
+	  //// data: buffer chứa data cần gửi
+	  //// 12: size của buffer đc declare ở trên
+	  //// Timeout: 1s, function stop if after 1s data chưa đc gửi
+	  HAL_UART_Transmit(&huart2, data, 12, 1000);
+	  HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
