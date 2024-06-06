@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -57,6 +57,10 @@ static void MX_USART2_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 uint8_t data[] = "Hello world\n";
+
+// In case muốn gửi data là số, ta k thể gửi trực tiếp int đc, khi đó int sẽ đc encode sang ASCII và thành 1 giá trị khác
+uint8_t number = 123;
+char dataNumber[4];
 
 /* USER CODE END 0 */
 
@@ -98,16 +102,23 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
+	  // Viết số cần gửi vào array char
+	  sprintf(dataNumber, "%d\n", number);
 	  // Hàm gửi data thông qua UART, input:
 	  //// huart2: pointer đến biến define UART đc generate sẵn
 	  //// data: buffer chứa data cần gửi
 	  //// 12: size của buffer đc declare ở trên
 	  //// Timeout: 1s, function stop if after 1s data chưa đc gửi
 	  HAL_UART_Transmit(&huart2, data, 12, 1000);
+
+	  // In case gửi số
+	  // HAL_UART_Transmit(&huart2, dataNumber, 4, 1000);
 	  HAL_Delay(1000);
-    /* USER CODE BEGIN 3 */
   }
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+
   /* USER CODE END 3 */
 }
 
